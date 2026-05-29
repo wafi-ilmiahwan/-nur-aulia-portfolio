@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* ============ RESET & BASE ============ */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #fafaf9;
+    --ink: #0a0a0a;
+    --ink-2: #3a3a3a;
+    --muted: #8a8a85;
+    --line: #e5e3df;
+    --accent: #c8553d;
+    --paper: #f3f0ea;
+    --serif: 'Instrument Serif', 'Times New Roman', serif;
+    --sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.6;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  a { color: inherit; text-decoration: none; }
+  img { max-width: 100%; display: block; }
+  button { font: inherit; cursor: pointer; background: none; border: none; color: inherit; }
+
+  /* ============ LAYOUT ============ */
+  .wrap { max-width: 920px; margin: 0 auto; padding: 0 32px; }
+  section { padding: 96px 0; border-bottom: 1px solid var(--line); }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .eyebrow::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--ink);
+    display: inline-block;
+  }
+  .section-title {
+    font-family: var(--serif);
+    font-size: clamp(36px, 5vw, 56px);
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 56px;
+  }
+  .section-title em { font-style: italic; color: var(--muted); }
+
+  /* ============ NAV ============ */
+  .nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(250, 250, 249, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 18px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .nav-brand {
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    font-weight: 500;
+  }
+  .nav-brand span { color: var(--accent); }
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+    transition: color 0.2s;
+    position: relative;
+  }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    left: 0; bottom: -6px;
+    width: 0; height: 1px;
+    background: var(--ink);
+    transition: width 0.3s;
+  }
+  .nav-links a:hover::after { width: 100%; }
+  .nav-toggle { display: none; font-size: 20px; }
+
+  /* ============ HERO ============ */
+  .hero {
+    min-height: 100vh;
+    padding: 140px 0 80px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--line);
+  }
+  .hero-inner { width: 100%; }
+  .hero-meta {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 48px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--line);
+  }
+  .hero-name {
+    font-family: var(--serif);
+    font-size: clamp(56px, 11vw, 132px);
+    font-weight: 400;
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    margin-bottom: 32px;
+  }
+  .hero-name em { font-style: italic; }
+  .hero-rule {
+    width: 80px;
+    height: 1px;
+    background: var(--ink);
+    margin-bottom: 32px;
+  }
+  .hero-role {
+    font-family: var(--sans);
+    font-size: clamp(18px, 2vw, 22px);
+    color: var(--ink-2);
+    margin-bottom: 16px;
+    min-height: 1.6em;
+  }
+  .hero-role .cursor {
+    display: inline-block;
+    width: 2px;
+    height: 0.9em;
+    background: var(--accent);
+    margin-left: 4px;
+    vertical-align: text-bottom;
+    animation: blink 1s steps(1) infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+  .hero-tagline {
+    max-width: 540px;
+    color: var(--muted);
+    font-size: 16px;
+    margin-bottom: 48px;
+  }
+  .hero-cta {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .btn {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 14px 28px;
+    border: 1px solid var(--ink);
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .btn-primary { background: var(--ink); color: var(--bg); }
+  .btn-primary:hover { background: var(--accent); border-color: var(--accent); }
+  .btn-secondary:hover { background: var(--ink); color: var(--bg); }
+  .btn .arrow { transition: transform 0.2s; }
+  .btn:hover .arrow { transform: translateX(4px); }
+
+  /* ============ ABOUT ============ */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 72px;
+    align-items: flex-start;
+  }
+  .about-photo {
+    aspect-ratio: 3/4;
+    background: var(--paper);
+    overflow: hidden;
+    position: relative;
+  }
+  .about-photo img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(0.15); }
+  .about-photo::after {
+    content: '';
+    position: absolute;
+    inset: 12px;
+    border: 1px solid rgba(250,250,249,0.4);
+    pointer-events: none;
+  }
+  .about-content p {
+    font-size: 17px;
+    line-height: 1.75;
+    margin-bottom: 24px;
+    color: var(--ink-2);
+  }
+  .about-quote {
+    margin-top: 40px;
+    padding: 32px;
+    background: var(--paper);
+    border-left: 2px solid var(--ink);
+    font-family: var(--serif);
+    font-size: 22px;
+    font-style: italic;
+    line-height: 1.4;
+    color: var(--ink);
+  }
+  .about-quote::before { content: '" '; color: var(--accent); }
+  .about-quote::after { content: ' "'; color: var(--accent); }
+  .about-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 48px;
+    padding-top: 32px;
+    border-top: 1px solid var(--line);
+  }
+  .stat-num {
+    font-family: var(--serif);
+    font-size: 44px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .stat-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 8px;
+  }
+
+  /* ============ EXPERIENCE ============ */
+  .exp-list { list-style: none; }
+  .exp-item {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 32px;
+    padding: 32px 0;
+    border-top: 1px solid var(--line);
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .exp-item:last-child { border-bottom: 1px solid var(--line); }
+  .exp-item:hover { background: var(--paper); margin: 0 -24px; padding: 32px 24px; }
+  .exp-period {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    text-transform: uppercase;
+    padding-top: 6px;
+  }
+  .exp-period .current {
+    display: inline-block;
+    padding: 2px 8px;
+    background: var(--accent);
+    color: var(--bg);
+    font-size: 10px;
+    margin-left: 8px;
+    letter-spacing: 0.1em;
+  }
+  .exp-position {
+    font-family: var(--serif);
+    font-size: 24px;
+    line-height: 1.2;
+    margin-bottom: 4px;
+  }
+  .exp-company {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+  .exp-desc {
+    font-size: 15px;
+    color: var(--ink-2);
+    line-height: 1.65;
+  }
+  .exp-details {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+    font-size: 14px;
+    color: var(--ink-2);
+    line-height: 1.7;
+  }
+  .exp-details-inner {
+    padding-top: 16px;
+    margin-top: 16px;
+    border-top: 1px dashed var(--line);
+    white-space: pre-wrap;
+  }
+  .exp-item.open .exp-details { max-height: 2000px; }
+  .exp-toggle {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-top: 12px;
+    display: inline-block;
+  }
+
+  /* ============ PROJECTS ============ */
+  .proj-filter {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 48px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--line);
+  }
+  .filter-btn {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 8px 16px;
+    border: 1px solid var(--line);
+    color: var(--ink-2);
+    transition: all 0.2s;
+  }
+  .filter-btn:hover, .filter-btn.active {
+    background: var(--ink);
+    color: var(--bg);
+    border-color: var(--ink);
+  }
+  .proj-list { list-style: none; }
+  .proj-item {
+    display: grid;
+    grid-template-columns: 60px 1fr auto;
+    gap: 32px;
+    padding: 36px 0;
+    border-top: 1px solid var(--line);
+    cursor: pointer;
+    transition: padding 0.3s;
+    align-items: flex-start;
+  }
+  .proj-item:last-child { border-bottom: 1px solid var(--line); }
+  .proj-item:hover { padding-left: 16px; padding-right: 16px; }
+  .proj-item:hover .proj-arrow { transform: translate(8px, -8px); }
+  .proj-num {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--muted);
+    padding-top: 8px;
+  }
+  .proj-info { min-width: 0; }
+  .proj-title {
+    font-family: var(--serif);
+    font-size: clamp(24px, 3vw, 34px);
+    line-height: 1.15;
+    margin-bottom: 8px;
+  }
+  .proj-tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+  .proj-desc {
+    font-size: 15px;
+    color: var(--ink-2);
+    line-height: 1.65;
+    max-width: 600px;
+    margin-bottom: 16px;
+  }
+  .proj-metrics {
+    display: flex;
+    gap: 32px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+  .proj-metric { display: flex; flex-direction: column; }
+  .proj-metric-value {
+    font-family: var(--serif);
+    font-size: 28px;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .proj-metric-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .proj-arrow {
+    font-family: var(--serif);
+    font-size: 36px;
+    line-height: 1;
+    color: var(--ink);
+    transition: transform 0.3s;
+    padding-top: 8px;
+  }
+  .proj-thumbs {
+    display: flex;
+    gap: 8px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+  .proj-thumb {
+    width: 80px;
+    height: 80px;
+    background: var(--paper);
+    overflow: hidden;
+    cursor: zoom-in;
+    transition: opacity 0.2s;
+  }
+  .proj-thumb:hover { opacity: 0.7; }
+  .proj-thumb img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: grayscale(0.2);
+  }
+
+  /* ============ SKILLS ============ */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 48px;
+  }
+  .skill-category h3 {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--line);
+  }
+  .skill-item { margin-bottom: 16px; }
+  .skill-head {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+    font-size: 14px;
+  }
+  .skill-name { color: var(--ink); }
+  .skill-level {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .skill-bar {
+    height: 1px;
+    background: var(--line);
+    overflow: hidden;
+    position: relative;
+  }
+  .skill-fill {
+    position: absolute;
+    inset: 0;
+    background: var(--ink);
+    width: 0;
+    transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* ============ TOOLS ============ */
+  .tools-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    list-style: none;
+  }
+  .tool-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border: 1px solid var(--line);
+    font-size: 14px;
+    transition: all 0.2s;
+    background: var(--bg);
+  }
+  .tool-chip:hover {
+    border-color: var(--ink);
+    background: var(--paper);
+  }
+  .tool-icon { font-size: 16px; }
+
+  /* ============ ACHIEVEMENTS ============ */
+  .ach-list { list-style: none; }
+  .ach-item {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    gap: 24px;
+    padding: 28px 0;
+    border-top: 1px solid var(--line);
+  }
+  .ach-item:last-child { border-bottom: 1px solid var(--line); }
+  .ach-num {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .ach-title {
+    font-family: var(--serif);
+    font-size: 22px;
+    line-height: 1.25;
+    margin-bottom: 8px;
+  }
+  .ach-desc {
+    font-size: 14px;
+    color: var(--ink-2);
+    line-height: 1.65;
+  }
+
+  /* ============ CONTACT ============ */
+  .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--line);
+    border-left: 1px solid var(--line);
+  }
+  .contact-item {
+    padding: 32px;
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .contact-item:hover { background: var(--paper); }
+  .contact-icon {
+    font-size: 24px;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--line);
+  }
+  .contact-meta { flex: 1; min-width: 0; }
+  .contact-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .contact-value {
+    font-size: 15px;
+    color: var(--ink);
+    word-break: break-all;
+  }
+
+  /* ============ FOOTER ============ */
+  footer {
+    padding: 48px 0;
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  footer .rule {
+    width: 40px;
+    height: 1px;
+    background: var(--muted);
+    margin: 0 auto 24px;
+  }
+
+  /* ============ LIGHTBOX ============ */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(10,10,10,0.96);
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+  }
+  .lightbox.active { display: flex; }
+  .lightbox img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+  .lightbox-close, .lightbox-prev, .lightbox-next {
+    position: absolute;
+    color: #fff;
+    font-size: 32px;
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255,255,255,0.3);
+    transition: all 0.2s;
+  }
+  .lightbox-close:hover, .lightbox-prev:hover, .lightbox-next:hover {
+    background: #fff;
+    color: var(--ink);
+  }
+  .lightbox-close { top: 24px; right: 24px; }
+  .lightbox-prev { left: 24px; top: 50%; transform: translateY(-50%); }
+  .lightbox-next { right: 24px; top: 50%; transform: translateY(-50%); }
+  .lightbox-counter {
+    position: absolute;
+    bottom: 24px; left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 0.1em;
+  }
+
+  /* ============ FADE-UP ============ */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.in { opacity: 1; transform: none; }
+
+  /* ============ LOADING ============ */
+  .loading {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    text-transform: uppercase;
+    padding: 24px 0;
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 768px) {
+    .wrap { padding: 0 24px; }
+    section { padding: 64px 0; }
+    .nav-inner { padding: 14px 24px; }
+    .nav-links { display: none; position: fixed; top: 56px; left: 0; right: 0; background: var(--bg); flex-direction: column; gap: 0; padding: 24px; border-bottom: 1px solid var(--line); }
+    .nav-links.open { display: flex; }
+    .nav-links a { padding: 14px 0; border-bottom: 1px solid var(--line); }
+    .nav-toggle { display: block; }
+    .hero { padding: 110px 0 60px; }
+    .about-grid { grid-template-columns: 1fr; gap: 40px; }
+    .about-photo { max-width: 280px; }
+    .exp-item, .proj-item, .ach-item { grid-template-columns: 1fr; gap: 8px; }
+    .exp-item:hover, .proj-item:hover { margin: 0; padding-left: 0; padding-right: 0; background: none; }
+    .proj-num, .ach-num { font-size: 12px; }
+    .proj-arrow { display: none; }
+    .skills-grid { grid-template-columns: 1fr; gap: 32px; }
+    .contact-grid { grid-template-columns: 1fr; }
+    .about-stats { grid-template-columns: 1fr 1fr; }
+    .stat-num { font-size: 32px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#hero" class="nav-brand">[<span id="brand-initial">·</span>] PORTFOLIO</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about">About</a></li>
+      <li><a href="#experience">Work</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button class="nav-toggle" onclick="document.getElementById('navLinks').classList.toggle('open')">≡</button>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero" id="hero">
+  <div class="wrap hero-inner">
+    <div class="hero-meta">
+      <span id="hero-loc">— Indonesia</span>
+      <span id="hero-year">© 2026</span>
+    </div>
+    <h1 class="hero-name" id="hero-name">Loading<em>…</em></h1>
+    <div class="hero-rule"></div>
+    <div class="hero-role" id="hero-role"><span class="cursor"></span></div>
+    <p class="hero-tagline" id="hero-tagline">—</p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn btn-primary">View Work <span class="arrow">→</span></a>
+      <a href="#contact" class="btn btn-secondary">Get in Touch</a>
+    </div>
+  </div>
+</header>
+
+<!-- ============ ABOUT ============ -->
+<section id="about" class="reveal">
+  <div class="wrap">
+    <div class="eyebrow">01 / About</div>
+    <h2 class="section-title">Profile <em>&amp; principles</em></h2>
+    <div class="about-grid">
+      <div class="about-photo" id="about-photo-wrap">
+        <img id="about-photo" alt="Profile" />
+      </div>
+      <div class="about-content" id="about-content">
+        <p class="loading">Loading bio…</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ EXPERIENCE ============ -->
+<section id="experience" class="reveal">
+  <div class="wrap">
+    <div class="eyebrow">02 / Experience</div>
+    <h2 class="section-title">Selected <em>work</em></h2>
+    <ul class="exp-list" id="exp-list">
+      <li class="loading">Loading experience…</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ PROJECTS ============ -->
+<section id="projects" class="reveal">
+  <div class="wrap">
+    <div class="eyebrow">03 / Projects</div>
+    <h2 class="section-title">Selected <em>engagements</em></h2>
+    <div class="proj-filter" id="proj-filter"></div>
+    <ul class="proj-list" id="proj-list">
+      <li class="loading">Loading projects…</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ SKILLS ============ -->
+<section id="skills" class="reveal">
+  <div class="wrap">
+    <div class="eyebrow">04 / Skills</div>
+    <h2 class="section-title">Core <em>competencies</em></h2>
+    <div class="skills-grid" id="skills-grid">
+      <p class="loading">Loading skills…</p>
+    </div>
+
+    <div class="eyebrow" style="margin-top:64px">Tools &amp; Software</div>
+    <ul class="tools-list" id="tools-list">
+      <li class="loading">Loading tools…</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ ACHIEVEMENTS ============ -->
+<section id="achievements" class="reveal">
+  <div class="wrap">
+    <div class="eyebrow">05 / Recognition</div>
+    <h2 class="section-title">Certifications <em>&amp; achievements</em></h2>
+    <ul class="ach-list" id="ach-list">
+      <li class="loading">Loading achievements…</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section id="contact" class="reveal">
+  <div class="wrap">
+    <div class="eyebrow">06 / Contact</div>
+    <h2 class="section-title">Let's <em>connect</em></h2>
+    <p style="max-width:560px;color:var(--muted);margin-bottom:48px;font-size:16px">
+      Open for discussions on financial management, taxation, audit, legal compliance, and asset advisory.
+    </p>
+    <div class="contact-grid" id="contact-grid">
+      <p class="loading">Loading contacts…</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="rule"></div>
+    <div id="footer-name">© 2026 — Portfolio</div>
+    <div style="margin-top:8px;font-size:10px;opacity:0.6">Made with care · Backend: Google Sheets</div>
+  </div>
+</footer>
+
+<!-- ============ LIGHTBOX ============ -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+  <button class="lightbox-close" onclick="closeLightbox(event,true)">×</button>
+  <button class="lightbox-prev" onclick="lightboxNav(-1,event)">‹</button>
+  <button class="lightbox-next" onclick="lightboxNav(1,event)">›</button>
+  <img id="lightbox-img" />
+  <div class="lightbox-counter" id="lightbox-counter">1 / 1</div>
+</div>
+
+<script>
+  /* ============ CONFIG ============ */
+  // GANTI dengan ID spreadsheet milik temanmu.
+  // Pastikan spreadsheet di-share "Anyone with the link can view".
+  const SHEET_ID = '1TZ2JsTp0VkwgiCTPFMlUZcIc2pWydeL8FwHiA3dOy1M';
+
+  const API = (sheet) =>
+    `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(sheet)}&headers=1`;
+
+  /* ============ SHEET FETCHER ============ */
+  async function fetchSheet(name) {
+    try {
+      const res = await fetch(API(name));
+      const text = await res.text();
+      const json = JSON.parse(text.match(/google\.visualization\.Query\.setResponse\(([\s\S]+)\);?/)[1]);
+      const cols = json.table.cols.map(c => (c.label || c.id || '').toString().trim().toLowerCase());
+      return json.table.rows.map(r => {
+        const obj = {};
+        cols.forEach((col, i) => {
+          if (!col) return;
+          const cell = r.c[i];
+          obj[col] = cell ? (cell.v !== null && cell.v !== undefined ? String(cell.v) : '') : '';
+        });
+        return obj;
+      });
+    } catch (e) {
+      console.error('fetchSheet error:', name, e);
+      return [];
+    }
+  }
+
+  /* ============ DRIVE URL HELPER ============ */
+  function driveImg(url) {
+    if (!url) return '';
+    const m = url.match(/[-\w]{25,}/);
+    return m ? `https://lh3.googleusercontent.com/d/${m[0]}=w1200` : url;
+  }
+
+  /* ============ PROFILE / HERO ============ */
+  async function renderProfile() {
+    const rows = await fetchSheet('profile');
+    const p = {};
+    rows.forEach(r => { if (r.key) p[r.key.toLowerCase()] = r.value || ''; });
+    const first = p.firstname || '';
+    const last = p.lastname || '';
+    const fullName = (first + ' ' + last).trim() || 'Portfolio';
+    document.getElementById('hero-name').innerHTML =
+      first + (last ? ' <em>' + last + '</em>' : '');
+    document.getElementById('hero-tagline').textContent = p.tagline || p.bio || '';
+    document.getElementById('brand-initial').textContent =
+      (first[0] || 'P').toUpperCase() + (last[0] || '').toUpperCase();
+    document.getElementById('footer-name').textContent =
+      `© ${new Date().getFullYear()} — ${fullName}`;
+    document.title = `${fullName} — Portfolio`;
+    if (p.location) document.getElementById('hero-loc').textContent = '— ' + p.location;
+    document.getElementById('hero-year').textContent = '© ' + new Date().getFullYear();
+    if (p.photo) {
+      document.getElementById('about-photo').src = driveImg(p.photo);
+      document.getElementById('about-photo').alt = fullName;
+    }
+  }
+
+  /* ============ ROLES (TYPING) ============ */
+  async function renderRoles() {
+    const rows = await fetchSheet('roles');
+    // header row becomes first role (column label), additional roles are data rows
+    const roles = [];
+    if (rows.length > 0) {
+      const firstKey = Object.keys(rows[0])[0];
+      if (firstKey) roles.push(firstKey);
+      rows.forEach(r => { const v = Object.values(r)[0]; if (v) roles.push(v); });
+    }
+    if (!roles.length) roles.push('Professional');
+    typeEffect(roles);
+  }
+  function typeEffect(roles) {
+    const el = document.getElementById('hero-role');
+    let i = 0, j = 0, deleting = false;
+    function tick() {
+      const current = roles[i];
+      const text = current.substring(0, j);
+      el.innerHTML = text + '<span class="cursor"></span>';
+      if (!deleting && j < current.length) j++;
+      else if (deleting && j > 0) j--;
+      else {
+        if (!deleting) { deleting = true; setTimeout(tick, 1800); return; }
+        deleting = false; i = (i + 1) % roles.length;
+      }
+      setTimeout(tick, deleting ? 40 : 80);
+    }
+    tick();
+  }
+
+  /* ============ ABOUT ============ */
+  async function renderAbout() {
+    const rows = await fetchSheet('about');
+    const c = document.getElementById('about-content');
+    c.innerHTML = '';
+    const paragraphs = rows.map(r => r.paragraph || r.value || Object.values(r)[0]).filter(Boolean);
+    paragraphs.forEach(p => {
+      const el = document.createElement('p');
+      el.textContent = p;
+      c.appendChild(el);
+    });
+    // optional quote from profile sheet
+    const prof = await fetchSheet('profile');
+    const quote = prof.find(r => (r.key||'').toLowerCase() === 'quote');
+    if (quote && quote.value) {
+      const q = document.createElement('div');
+      q.className = 'about-quote';
+      q.textContent = quote.value;
+      c.appendChild(q);
+    }
+    // stats — pull from profile sheet keys stat1-stat3 (value format: "10+|Years")
+    const stats = ['stat1','stat2','stat3'].map(k => prof.find(r => (r.key||'').toLowerCase() === k)?.value).filter(Boolean);
+    if (stats.length) {
+      const grid = document.createElement('div');
+      grid.className = 'about-stats';
+      stats.forEach(s => {
+        const [num, lbl] = s.split('|').map(x => x.trim());
+        const item = document.createElement('div');
+        item.innerHTML = `<div class="stat-num">${num || ''}</div><div class="stat-label">${lbl || ''}</div>`;
+        grid.appendChild(item);
+      });
+      c.appendChild(grid);
+    }
+  }
+
+  /* ============ EXPERIENCE ============ */
+  async function renderExperience() {
+    const rows = await fetchSheet('experience');
+    const list = document.getElementById('exp-list');
+    list.innerHTML = '';
+    if (!rows.length) { list.innerHTML = '<li class="loading">No experience data yet.</li>'; return; }
+    rows.forEach(r => {
+      const li = document.createElement('li');
+      li.className = 'exp-item';
+      const isCurrent = (r.current || '').toLowerCase() === 'yes' || (r.current || '').toLowerCase() === 'true';
+      li.innerHTML = `
+        <div class="exp-period">${r.period || ''}${isCurrent ? '<span class="current">Now</span>' : ''}</div>
+        <div>
+          <h3 class="exp-position">${r.position || ''}</h3>
+          <div class="exp-company">${r.company || ''}</div>
+          ${r.description ? `<p class="exp-desc">${r.description}</p>` : ''}
+          ${r.details ? `
+            <span class="exp-toggle">+ Read more</span>
+            <div class="exp-details"><div class="exp-details-inner">${r.details}</div></div>
+          ` : ''}
+        </div>
+      `;
+      if (r.details) {
+        li.addEventListener('click', () => {
+          li.classList.toggle('open');
+          const t = li.querySelector('.exp-toggle');
+          if (t) t.textContent = li.classList.contains('open') ? '− Show less' : '+ Read more';
+        });
+      }
+      list.appendChild(li);
+    });
+  }
+
+  /* ============ PROJECTS ============ */
+  let allProjects = [];
+  let projectImagesAll = []; // for lightbox
+  let lightboxIndex = 0;
+  let lightboxImages = [];
+
+  async function renderProjects() {
+    const rows = await fetchSheet('projects');
+    allProjects = rows;
+    const cats = ['All', ...new Set(rows.map(r => r.category).filter(Boolean))];
+    const filter = document.getElementById('proj-filter');
+    filter.innerHTML = '';
+    cats.forEach((c, i) => {
+      const b = document.createElement('button');
+      b.className = 'filter-btn' + (i === 0 ? ' active' : '');
+      b.textContent = c;
+      b.onclick = () => {
+        document.querySelectorAll('.filter-btn').forEach(x => x.classList.remove('active'));
+        b.classList.add('active');
+        filterProjects(c);
+      };
+      filter.appendChild(b);
+    });
+    filterProjects('All');
+  }
+  function filterProjects(cat) {
+    const list = document.getElementById('proj-list');
+    list.innerHTML = '';
+    const rows = cat === 'All' ? allProjects : allProjects.filter(r => r.category === cat);
+    if (!rows.length) { list.innerHTML = '<li class="loading">No projects.</li>'; return; }
+    rows.forEach((r, idx) => {
+      const num = String(idx + 1).padStart(2, '0');
+      const imgs = [];
+      for (let i = 1; i <= 9; i++) {
+        const v = r['image ' + i] || r['image' + i];
+        if (v) imgs.push(driveImg(v));
+      }
+      const metrics = [];
+      [1,2,3].forEach(i => {
+        const val = r['m'+i+'value'], lbl = r['m'+i+'label'];
+        if (val) metrics.push(`<div class="proj-metric"><div class="proj-metric-value">${val}</div><div class="proj-metric-label">${lbl||''}</div></div>`);
+      });
+      const li = document.createElement('li');
+      li.className = 'proj-item';
+      li.innerHTML = `
+        <div class="proj-num">${num}</div>
+        <div class="proj-info">
+          ${r.tag ? `<div class="proj-tag">${r.tag}</div>` : ''}
+          <h3 class="proj-title">${r.title || ''}</h3>
+          ${r.description ? `<p class="proj-desc">${r.description}</p>` : ''}
+          ${metrics.length ? `<div class="proj-metrics">${metrics.join('')}</div>` : ''}
+          ${imgs.length ? `<div class="proj-thumbs">${imgs.map((src,i)=>`<div class="proj-thumb" data-idx="${i}"><img src="${src}" alt="" loading="lazy"></div>`).join('')}</div>` : ''}
+        </div>
+        <div class="proj-arrow">↗</div>
+      `;
+      // lightbox
+      li.querySelectorAll('.proj-thumb').forEach((t, i) => {
+        t.addEventListener('click', (e) => {
+          e.stopPropagation();
+          openLightbox(imgs, i);
+        });
+      });
+      list.appendChild(li);
+    });
+  }
+
+  /* ============ LIGHTBOX ============ */
+  function openLightbox(imgs, i) {
+    lightboxImages = imgs;
+    lightboxIndex = i;
+    document.getElementById('lightbox-img').src = imgs[i];
+    document.getElementById('lightbox-counter').textContent = `${i+1} / ${imgs.length}`;
+    document.getElementById('lightbox').classList.add('active');
+  }
+  function closeLightbox(e, force) {
+    if (force || e.target.id === 'lightbox') {
+      document.getElementById('lightbox').classList.remove('active');
+    }
+  }
+  function lightboxNav(dir, e) {
+    e.stopPropagation();
+    lightboxIndex = (lightboxIndex + dir + lightboxImages.length) % lightboxImages.length;
+    document.getElementById('lightbox-img').src = lightboxImages[lightboxIndex];
+    document.getElementById('lightbox-counter').textContent = `${lightboxIndex+1} / ${lightboxImages.length}`;
+  }
+  document.addEventListener('keydown', (e) => {
+    const lb = document.getElementById('lightbox');
+    if (!lb.classList.contains('active')) return;
+    if (e.key === 'Escape') closeLightbox(null, true);
+    if (e.key === 'ArrowLeft') lightboxNav(-1, e);
+    if (e.key === 'ArrowRight') lightboxNav(1, e);
+  });
+
+  /* ============ SKILLS ============ */
+  async function renderSkills() {
+    const rows = await fetchSheet('skills');
+    const grid = document.getElementById('skills-grid');
+    grid.innerHTML = '';
+    const cats = {};
+    rows.forEach(r => {
+      const c = r.category || 'Other';
+      (cats[c] = cats[c] || []).push(r);
+    });
+    Object.entries(cats).forEach(([cat, items]) => {
+      const block = document.createElement('div');
+      block.className = 'skill-category';
+      block.innerHTML = `<h3>${cat}</h3>` + items.map(s => `
+        <div class="skill-item">
+          <div class="skill-head">
+            <span class="skill-name">${s.icon ? s.icon + ' ' : ''}${s.name || ''}</span>
+            <span class="skill-level">${s.level || ''}</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill" data-level="${s.level || 0}"></div></div>
+        </div>
+      `).join('');
+      grid.appendChild(block);
+    });
+    // animate bars when in view
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(en => {
+        if (en.isIntersecting) {
+          en.target.querySelectorAll('.skill-fill').forEach(b => {
+            b.style.width = Math.min(100, parseInt(b.dataset.level) || 0) + '%';
+          });
+        }
+      });
+    }, { threshold: 0.2 });
+    obs.observe(grid);
+  }
+
+  /* ============ TOOLS ============ */
+  async function renderTools() {
+    const rows = await fetchSheet('tools');
+    const list = document.getElementById('tools-list');
+    list.innerHTML = '';
+    rows.forEach(r => {
+      const li = document.createElement('li');
+      li.className = 'tool-chip';
+      li.innerHTML = `${r.icon ? `<span class="tool-icon">${r.icon}</span>` : ''}<span>${r.name || ''}</span>`;
+      list.appendChild(li);
+    });
+  }
+
+  /* ============ ACHIEVEMENTS ============ */
+  async function renderAchievements() {
+    const rows = await fetchSheet('achievements');
+    const list = document.getElementById('ach-list');
+    list.innerHTML = '';
+    if (!rows.length) { list.innerHTML = '<li class="loading">No achievements yet.</li>'; return; }
+    rows.forEach((r, i) => {
+      const li = document.createElement('li');
+      li.className = 'ach-item';
+      li.innerHTML = `
+        <div class="ach-num">${String(i+1).padStart(2,'0')}</div>
+        <div>
+          <h3 class="ach-title">${r.title || ''}</h3>
+          <p class="ach-desc">${r.description || ''}</p>
+        </div>
+      `;
+      list.appendChild(li);
+    });
+  }
+
+  /* ============ CONTACT ============ */
+  async function renderContact() {
+    const rows = await fetchSheet('contact');
+    const grid = document.getElementById('contact-grid');
+    grid.innerHTML = '';
+    rows.forEach(r => {
+      const a = document.createElement('a');
+      a.className = 'contact-item';
+      a.href = r.link || '#';
+      if (r.link && r.link.startsWith('http')) a.target = '_blank';
+      a.innerHTML = `
+        <div class="contact-icon">${r.icon || '·'}</div>
+        <div class="contact-meta">
+          <div class="contact-label">${r.label || r.type || ''}</div>
+          <div class="contact-value">${r.value || ''}</div>
+        </div>
+      `;
+      grid.appendChild(a);
+    });
+  }
+
+  /* ============ REVEAL ON SCROLL ============ */
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach(en => { if (en.isIntersecting) en.target.classList.add('in'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+  /* ============ INIT ============ */
+  (async function init() {
+    await Promise.all([
+      renderProfile(),
+      renderRoles(),
+      renderAbout(),
+      renderExperience(),
+      renderProjects(),
+      renderSkills(),
+      renderTools(),
+      renderAchievements(),
+      renderContact(),
+    ]);
+    // close mobile menu on link click
+    document.querySelectorAll('#navLinks a').forEach(a =>
+      a.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open'))
+    );
+  })();
+</script>
+</body>
+</html>
